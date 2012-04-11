@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<title>Digs web tests</title>
+<link rel="stylesheet" href="qunit.css" type="text/css" media="screen"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script src="qunit.js"></script>
+<script src="../digs.js"></script>
+<script>
+$(function(){
+
+  function uniqueObj() {
+    return {foo: Math.floor(Math.random() * (10000000)).toString()};
+  }
+
+  function verify(digs, path, obj, cb){
+    digs.retrieve(path)
+      .success(function(data){
+        deepEqual(data, obj, 'round trip successful');
+      })
+      .error(function(jqxhr, textStatus, error){
+        console.log(textStatus, error);
+        ok(false, 'unable to fetch saved value');
+      })
+      .complete(function(){
+        cb();
+      });
+  }
+
+  function complain(cb){
+    var start = cb;
+    return function(jqxhr, textStatus, error){
+      console.log(textStatus, error);
+      ok(false, 'did not expect to error');
+      start();
+    };
+  }
+    
+
+  module("Digs");
+
+  test("global Digs constructor is there", function(){
+    ok(Digs, "it's there");
+    equal(typeof Digs, 'function', "it's a function");
+  });
+
+  test("baseUrl defaults to script location", function(){
+    equal(Digs().baseUrl, document.URL.match(/(.*\/)test/)[1]);
+  });
+
+  var digs = Digs();
+
+  asyncTest("save to path and retrieve roundtrip", function(){
+    var specificPath = 'somePath';
+    var obj = uniqueObj();
+
+    digs.save(obj, specificPath).success(function(data){
+      ok(true, 'post claims success');
+      ok(data.match(/Created|OK/));
+      verify(digs, specificPath, obj, start);
+    }).error(complain(start));
+  });
+
+  asyncTest("save wherever and retrieve roundtrip", function(){
+    var obj = uniqueObj();
+
+    digs.save(obj).success(function(data){
+      ok(true, 'post claims success');
+      ok(data.match(/[a-zA-Z0-9]+/), 'response body looks like an id');
+      verify(digs, data, obj, start);
+    }).error(complain(start));
+  });
+
+  asyncTest("save then delete", function(){
+    var obj = uniqueObj();
+
+    digs.save(obj).success(function(path){
+      digs.retrieve(path).success(function(data){
+        deepEqual(data, obj);
+        digs.erase(path).success(function(){
+          digs.retrieve(path).error(function(jqxhr, text, error){
+            equal(error, 'Not Found');
+            start();
+          }).success(function(){
+            ok(false, 'path should not be there');
+            start();
+          });
+        }).error(complain(start));
+      }).error(complain(start));
+    }).error(complain(start));
+  });
+
+  asyncTest("list", function(){
+    var obj = uniqueObj();
+
+    digs.save(obj).success(function(path){
+      digs.list().success(function(map){
+        ok(map[path], 'saved path listed');
+        deepEqual(map[path], obj);
+        console.log("list returned:",map);
+        start();
+      }).error(complain(start));
+    }).error(complain(start));
+  });
+
+});
+
+</script>
+
+<h1 id="qunit-header">QUnit example</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">test markup, will be hidden</div>
