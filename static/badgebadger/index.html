@@ -47,12 +47,12 @@
         <form>
           <label for="backpackUrl">Backpack URL</label>
           <span id="backpackUrlGroup" class="control-group">
-            <input type="text" id="backpackUrl" class="span2" value="http://localhost:8888" />
+            <input type="text" id="backpackUrl" class="span3" value="http://localhost:8888" />
           </span>
-          <span class="help-inline">We'll grab the Issuer API from here.</span>
+          <span class="help-block">We'll grab the Issuer API from here.</span>
           <label for="baseUrl">BadgeBadger URL (from Backpack)</label>
-          <input type="text" id="baseUrl" class="span2"/> 
-          <span class="help-inline">The Backpack will use this URL to reach your assertions.</span>
+          <input type="text" id="baseUrl" class="span3"/> 
+          <span class="help-block">The Backpack will use this URL to reach your assertions.</span>
         </form>
       </div>
       <div class="span6">
@@ -106,10 +106,10 @@
         <form>
           <label for="email">Award badge to</label>
           <input type="text" id="email" class="span3" placeholder="E-mail Address" />
-          <span class="help-inline">The same email must be used in the Backpack to successfully claim the badge.</span>
+          <span class="help-block">The same email must be used in the Backpack to successfully claim the badge.</span>
           <label for="assertionId">Assertion ID</label> 
           <input type="text" id="assertionId" class="span3" placeholder="assertion ID" />
-          <span class="help-inline">You can optionally specify an ID, or leave it blank to let one be generated for you.</span>
+          <span class="help-block">You can optionally specify an ID, or leave it blank to let one be generated for you.</span>
           <div class="control-group">
             <input type="submit" class="btn btn-primary" value="Post assertion" id="submit" />
           </div>
@@ -136,7 +136,7 @@
           <input type="submit" class="btn btn-primary" value="Issue badges" id="submit" />
           <label for="preview">Call preview</label>
           <pre id="preview">OpenBadges.issue([], callback);</pre>
-          <label for="result">Call return</label>
+          <label for="result">Callback(errors, successes)</label>
           <pre id="result"></pre>
         </form>
       </div>
