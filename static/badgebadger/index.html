@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>BadgeBadger</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="container">
+
+    <div id="header" class="row">
+      <div class="span12">
+        <h1>BadgeBadger</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div  class="span6">
+        <p>
+          This is the BadgeBadger testing platform. It lets you define a badge, post 
+          assertions, and issue them while exposing some of what happens under the hood
+          for testing and learning. 
+        </p>
+      </div>
+      <div class="span6">
+        <div class="alert">
+          Assertion hosting here is <em>short-term</em> and subject to random erasure. Don't
+          rely on these assertions hanging around forever.
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span6">
+        <h2><span class="step">1</span> Configuration</h2>
+        <p>
+          Choose which Backpack to point to, and adjust the BadgeBadger URL if needed. BadgeBadger needs to be accessible <em>from the Backpack</em> (so if you're running it on localhost you might have to do some magic here). The Backpack URL is where we'll go to grab the Issuer API.
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span6">
+        <form>
+          <label for="backpackUrl">Backpack URL</label>
+          <span id="backpackUrlGroup" class="control-group">
+            <input type="text" id="backpackUrl" class="span2" value="http://localhost:8888" />
+          </span>
+          <span class="help-inline">We'll grab the Issuer API from here.</span>
+          <label for="baseUrl">BadgeBadger URL (from Backpack)</label>
+          <input type="text" id="baseUrl" class="span2"/> 
+          <span class="help-inline">The Backpack will use this URL to reach your assertions.</span>
+        </form>
+      </div>
+      <div class="span6">
+        <div class="alert alert-info form-inline">
+          <span class="control-group success"><label>Green</label></span> means loaded,
+          <span class="control-group error"><label>red</label></span> means failed,
+          <span class="control-group warning"><label>yellow</label></span> means loading, or for the Backpack URL possibly failed. 
+          Unfortunately some error conditions can't be detected.
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span6">
+        <h2><span class="step">2</span> Badge</h2>
+        <p>You don't get to choose the image, yet. Change the metadata to define your badge.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div id="badge" class="span3">
+        <h2>Image</h2>
+        <img src="img/badge.png" />
+      </div>
+      <div id="metadata" class="span3">
+        <h2>Metadata</h2>
+        <form>
+          <label for="version"> Version</label>
+          <input type="text" id="version" value="0.0.1" />
+          <br/>
+          <label for="name">Name</label>
+          <input type="text" id="name" class="span3" value="Badge name" />
+          <br/>
+          <label for="desc">Description</label>
+          <textarea id="desc" class="span3">What this badge is for</textarea>
+          <br/>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span6">
+        <h2><span class="step">3</span> Assertion</h2>
+        <p>Each time you issue a badge, you need an assertion behind it. Below you can 
+        choose a recipient email address, see the related assertion, and post it here (temporarily).</p>
+      </div>
+    </div>
+
+    <div id="assertion" class="row">
+      <div class="span6">
+        <form>
+          <label for="email">Award badge to</label>
+          <input type="text" id="email" class="span3" placeholder="E-mail Address" />
+          <span class="help-inline">The same email must be used in the Backpack to successfully claim the badge.</span>
+          <label for="assertionId">Assertion ID</label> 
+          <input type="text" id="assertionId" class="span3" placeholder="assertion ID" />
+          <span class="help-inline">You can optionally specify an ID, or leave it blank to let one be generated for you.</span>
+          <div class="control-group">
+            <input type="submit" class="btn btn-primary" value="Post assertion" id="submit" />
+          </div>
+        </form>
+      </div>
+      <div class="span6">
+        <pre></pre>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span6">
+        <h2><span class="step">4</span> Issuing</h2>
+        <p>The Issuer API takes a list of assertions representing the badges to issue to a user. Here you can send assertions to the Issuer Frame and see the results.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div id="issue" class="span6">
+        <h2>Issue badges</h2>
+        <form>
+          <label for="assertions">Assertion IDs</label> 
+          [<input type="text" id="assertions" class="span3" placeholder="path, path..." />]
+          <input type="submit" class="btn btn-primary" value="Issue badges" id="submit" />
+          <label for="preview">Call preview</label>
+          <pre id="preview">OpenBadges.issue([], callback);</pre>
+          <label for="result">Call return</label>
+          <pre id="result"></pre>
+        </form>
+      </div>
+
+      <div id="hosted" class="span6">
+        <h2>Hosted assertions</h2>
+        <pre></pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script src="js/badgebadger.js"></script>
+  <script src="../../digs.js"></script>
+  <script src="js/main.js"></script>
+  <script id="issuerScript" src="http://localhost:8888/issuer.js"></script>
+</body>
+</html>
