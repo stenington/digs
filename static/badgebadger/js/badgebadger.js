@@ -59,4 +59,13 @@
   
   });
 
+  $.fn.extend({
+    reloadFrom: function(url){
+      var script = this.attr('src').match(/\/([^\/]+\.js)/)[1];
+      var scriptUrl = $.toUrl(url, script);
+      this.attr('src', scriptUrl);
+      return $.getScript(scriptUrl);
+    },
+  });
+
 })(jQuery);

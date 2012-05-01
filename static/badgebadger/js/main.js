@@ -34,13 +34,12 @@ $(function(){
           ['warning', 'error', 'success']
         );
         stat.warning();
-        var scriptUrl = $.toUrl(Config.backpackUrl, 'issuer.js');
-        $('#issuerScript').attr('src', scriptUrl); // issuer.js reads this to set its root
-        $.getScript(scriptUrl, function(){
-          stat.success();
-        }).fail(function(){
-          stat.error();
-        });
+        $('#issuerScript').reloadFrom(Config.backpackUrl)
+          .success(function(){ 
+            stat.success(); 
+          }).fail(function(){ 
+            stat.error(); 
+          });
       });
       $('#backpackUrl').change();
 
