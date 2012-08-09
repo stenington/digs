@@ -1,0 +1,3 @@
+[submodule "static/badgebadger"]
+	path = static/badgebadger
+	url = git://github.com/stenington/badgebadger.git
