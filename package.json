@@ -4,7 +4,7 @@
 , "private": "true"
 , "dependencies":
   { "api-easy": "0.3.3"
-  , "express": "2.5.x"
+  , "express": "4.17.x"
   }
 , "engines":
   { "node": "0.6.x"
